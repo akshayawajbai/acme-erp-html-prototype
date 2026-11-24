@@ -1,0 +1,253 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;600;700&display=swap');
+
+/* =====================================================================
+   AcME ERP – design system (tokens, header, navigation, components)
+   ===================================================================== */
+:root{
+  --p:#00A8CC;--ph:#0092B3;--s:#005B96;--d:#003B70;--lc:#EAF7FC;--bg:#F4F7FA;
+  --t:#1E3A52;--t2:#64748B;--bd:#E2EAF1;--ok:#16A34A;--wn:#F59E0B;--er:#EF4444;
+  --g:linear-gradient(135deg,#00A8CC,#005B96);
+  --gn:linear-gradient(90deg,#003B70,#005B96 60%,#0076AE);
+  --rad:12px;
+  --sh:0 1px 2px rgba(0,59,112,.05),0 4px 14px rgba(0,59,112,.05);
+  --sh2:0 16px 40px rgba(0,59,112,.18);
+  --hb:54px;--nb:48px;--hh:102px; /* header bar, nav bar, total header height (54 + 48) */
+}
+*{box-sizing:border-box}[hidden]{display:none!important}
+body{margin:0;font:14px/1.5 Rubik,'Segoe UI',system-ui,sans-serif;color:var(--t);background:var(--bg)}
+a{color:inherit;text-decoration:none}
+h1,h2,h3{margin:0}h1{font-size:24px;color:var(--d)}h2{font-size:15px;color:var(--d)}
+.ic{width:18px;height:18px;flex:none;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;vertical-align:middle}
+:focus-visible{outline:2px solid var(--p);outline-offset:2px}
+
+/* ---------- Brand / logo ---------- */
+.logo{display:flex;align-items:center;gap:6px;font-weight:700;color:var(--s)}
+.logo-img{height:52px;width:auto;display:block}
+.wm{display:inline-flex;align-items:center;gap:6px;font-size:24px;line-height:1;letter-spacing:-.02em}
+.wm b{color:var(--d);font-weight:700}.wm em{font-style:normal;color:var(--p)}
+.wm i{font-style:normal;font-size:12px;font-weight:700;letter-spacing:.08em;color:#fff;background:var(--g);padding:4px 7px;border-radius:6px}
+.mark{font-size:22px;color:var(--p)}
+
+/* ---------- Header ---------- */
+.top{position:sticky;top:0;z-index:40;background:#fff;box-shadow:0 1px 0 var(--bd),0 6px 18px rgba(0,59,112,.06)}
+.hbar{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:16px;height:var(--hb);padding:0 20px;margin:0}
+.hl{display:flex;align-items:center;gap:10px;min-width:0}
+.brand-title{text-align:center;display:flex;align-items:center;gap:12px}
+.brand-title span{font-weight:700;font-size:clamp(15px,1.35vw,19px);line-height:1.2;letter-spacing:.1em;white-space:nowrap;
+  background:linear-gradient(90deg,var(--d),var(--s) 45%,var(--p));-webkit-background-clip:text;background-clip:text;color:transparent}
+.brand-title::before,.brand-title::after{content:"";width:28px;height:2px;border-radius:2px;background:linear-gradient(90deg,transparent,var(--p))}
+.brand-title::after{transform:scaleX(-1)}
+.right{display:flex;align-items:center;justify-content:flex-end;gap:10px;position:relative}
+.ib{border:1px solid var(--bd);background:#fff;color:var(--s);border-radius:10px;width:38px;height:38px;cursor:pointer;position:relative;display:inline-grid;place-items:center;transition:background .15s,border-color .15s}
+.ib:hover{background:var(--lc);border-color:#bfe6f1}
+.ib i{position:absolute;top:-5px;right:-5px;background:var(--er);color:#fff;font:600 10px/16px Rubik,sans-serif;font-style:normal;border-radius:8px;min-width:16px;text-align:center;box-shadow:0 0 0 2px #fff}
+.nav-tg{display:none}
+.pf{display:flex;align-items:center;gap:10px;border:1px solid var(--bd);background:#fff;border-radius:999px;padding:3px 10px 3px 3px;cursor:pointer;font:inherit;color:var(--t);transition:background .15s,border-color .15s}
+.pf:hover,.pf[aria-expanded="true"]{background:var(--lc);border-color:#bfe6f1}
+.pf-t{display:grid;text-align:left;line-height:1.15}.pf-t small{color:var(--t2);font-size:11px}.pf-t b{font-size:13px;color:var(--d)}
+.pf .cv-i{width:14px;height:14px;color:var(--t2);transition:transform .2s}.pf[aria-expanded="true"] .cv-i{transform:rotate(180deg)}
+.av{width:32px;height:32px;border-radius:50%;background:var(--g);color:#fff;display:inline-grid;place-items:center;flex:none}.av .ic{width:17px;height:17px}.av.lg{width:42px;height:42px}
+.chip{background:var(--lc);color:var(--s);border-radius:20px;padding:5px 12px;font-size:12px;font-weight:600;white-space:nowrap}
+
+/* header menus (notifications / profile) */
+.menu{position:absolute;top:calc(100% + 10px);right:0;width:300px;background:#fff;border:1px solid var(--bd);border-radius:14px;box-shadow:var(--sh2);padding:8px;display:none;z-index:45}
+.menu.open{display:block;animation:pop .16s ease-out}
+.menu .mh{margin:4px 8px 6px;font-size:12px;font-weight:600;color:var(--t2);text-transform:uppercase;letter-spacing:.06em}
+.mi{display:flex;align-items:center;gap:10px;width:100%;padding:9px 10px;border-radius:8px;border:0;background:none;font:inherit;color:var(--t);text-align:left;cursor:pointer}
+.mi .ic{color:var(--s);width:16px;height:16px}.mi:hover,.mi:focus-visible{background:var(--lc);color:var(--s)}
+.mu{display:flex;gap:12px;align-items:center;padding:8px 10px 12px;margin-bottom:6px;border-bottom:1px solid var(--bd)}.mu small{display:block;color:var(--t2);font-size:12px}.mu b{color:var(--d)}
+#lo{color:var(--er)}#lo .ic{color:var(--er)}
+@keyframes pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
+
+/* ---------- Main navigation ---------- */
+.nbar{display:flex;align-items:center;gap:12px;height:var(--nb);padding:0 14px;background:var(--gn)}
+.links{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0;flex:1;min-width:0}
+.links>li{position:relative}
+.nl{display:flex;align-items:center;gap:8px;height:36px;padding:0 13px;border-radius:9px;border:0;background:none;color:#d6ecf8;font:500 14px Rubik,'Segoe UI',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nl .ic{width:17px;height:17px;opacity:.9}.nl .cv-i{width:14px;height:14px;transition:transform .2s}
+.nl:hover,.dd.open>.nl{background:rgba(255,255,255,.12);color:#fff}
+.nl.on{background:#fff;color:var(--s);box-shadow:0 2px 8px rgba(0,0,0,.12)}.nl.on .ic{opacity:1;color:var(--p)}
+.nl:focus-visible{outline:2px solid #7fdcf0;outline-offset:1px}
+.dd.open>.nl .cv-i{transform:rotate(180deg)}
+.dm{display:none;position:absolute;top:calc(100% + 6px);left:0;min-width:180px;max-width:min(300px,calc(100vw - 24px));list-style:none;margin:0;padding:4px;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:var(--sh2);z-index:42}
+.dm::before{content:"";position:absolute;left:0;right:0;top:-8px;height:8px} /* hover bridge */
+.dd.open>.dm{display:block;animation:pop .16s ease-out}
+.dm a,.dm .st{display:flex;align-items:center;gap:8px;width:100%;padding:6px 10px;border:0;background:none;font-family:inherit;text-align:left;cursor:pointer;border-radius:6px;font-size:12.5px;line-height:1.4;color:var(--t);font-weight:500;white-space:nowrap;transition:background .12s,color .12s}
+.dmi{width:22px;height:22px;border-radius:5px;background:var(--lc);color:var(--s);display:grid;place-items:center;flex:none;transition:background .12s,color .12s}.dmi .ic{width:14px;height:14px}
+.dm a:hover,.dm a:focus-visible,.dm .st:hover,.dm .st:focus-visible{background:var(--lc);color:var(--s);outline:none}.dm a:hover .dmi,.dm a:focus-visible .dmi,.dm .st:hover .dmi,.dm .st:focus-visible .dmi{background:var(--g);color:#fff}
+/* nested submenus: expand inside the panel (no off-screen flyouts) */
+.dm .st .cv-s{width:14px;height:14px;margin-left:auto;transform:rotate(-90deg);transition:transform .15s;flex:none}
+.dsm.open>.st .cv-s{transform:none}.dm .st.on{color:var(--s);font-weight:600}
+.dm2{display:none;list-style:none;margin:2px 0 4px 20px;padding:0 0 0 8px;border-left:2px solid var(--lc)}.dsm.open>.dm2{display:block}
+.dm2 a{padding:5px 10px}
+.dm a.on{background:var(--lc);color:var(--s);font-weight:600}.dm a.on .dmi{background:var(--g);color:#fff}
+.nx{display:flex;align-items:center;gap:8px;flex:none}.nx .chip{background:rgba(255,255,255,.14);color:#fff}
+@media (hover:hover) and (min-width:901px){.dd:hover>.dm{display:block}.dd:hover>.nl{background:rgba(255,255,255,.12);color:#fff}.dd:hover>.nl.on{background:#fff;color:var(--s)}}
+@media (min-width:901px) and (max-width:1180px){.nl{padding:0 10px}.links>li:nth-last-child(-n+2) .dm{left:auto;right:0}.nx .chip{display:none}}
+/* long menus (e.g. Head Office: 9 modules) – tighten so they stay on one row on laptops */
+@media (min-width:901px) and (max-width:1100px){.nbar{padding:0 8px}.nl{padding:0 8px;gap:6px;font-size:13px}.nl .ic{width:15px;height:15px}.nl .cv-i{width:12px;height:12px}}
+
+/* ---------- Layout ---------- */
+main{max-width:1400px;margin:0 auto;padding:24px 20px}
+.hd{display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:12px;margin-bottom:20px}.hd p{margin:4px 0 0;color:var(--t2)}
+.hd-act{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+.eyebrow{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--p)!important;margin:0 0 4px!important}
+.grid{display:grid;gap:16px;margin-bottom:16px}
+.g6{grid-template-columns:repeat(auto-fit,minmax(min(190px,100%),1fr))}
+.g5{grid-template-columns:repeat(auto-fit,minmax(min(200px,100%),1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(380px,100%),1fr))}
+.card{background:#fff;border:1px solid var(--bd);border-radius:var(--rad);padding:16px;box-shadow:var(--sh);min-width:0}.card h2{margin-bottom:12px}
+.kpi small{color:var(--t2)}.kpi b{display:block;font-size:24px;margin:4px 0;color:var(--s)}.kpi.hero{background:var(--g);color:#fff;border:0}.kpi.hero b,.kpi.hero small,.kpi.hero span{color:#fff}
+.up{color:var(--ok);font-size:12px}.dn{color:var(--er);font-size:12px}
+.demo-note{display:flex;align-items:center;gap:8px;background:#fff8e6;border:1px solid #fde7b0;color:#8a5a00;border-radius:10px;padding:8px 12px;font-size:13px;margin-bottom:16px}.demo-note .ic{width:16px;height:16px}
+
+/* ---------- Buttons + forms ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1px solid var(--bd);background:#fff;color:var(--t);border-radius:8px;padding:8px 14px;font:600 13px Rubik,'Segoe UI',sans-serif;cursor:pointer;transition:background .15s,border-color .15s,color .15s,box-shadow .15s}
+.btn:hover{border-color:var(--p);color:var(--s)}
+.btn.pr{background:var(--g);border-color:transparent;color:#fff;box-shadow:0 4px 12px rgba(0,168,204,.25)}.btn.pr:hover{background:linear-gradient(135deg,#0092B3,#004F84);color:#fff}
+.btn.sm{padding:4px 10px;font-size:12px}.btn.red{color:var(--er)}.btn.red:hover{border-color:var(--er)}
+.btn.ok{background:var(--ok);border-color:var(--ok);color:#fff}.btn.wn{background:var(--wn);border-color:var(--wn);color:#fff}.btn.dg{background:var(--er);border-color:var(--er);color:#fff}
+.btn.out{background:#fff;border-color:var(--p);color:var(--s)}.btn.gh{border-color:transparent;background:transparent;color:var(--s)}
+.btn .ic{width:15px;height:15px}.ic-btn{width:32px;height:32px;padding:0}
+input,select,textarea{font:inherit;border:1px solid var(--bd);border-radius:8px;padding:8px 10px;background:#fff;color:var(--t);width:100%}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--p);outline-offset:1px}
+.srch{position:relative;display:block}.srch .ic{position:absolute;left:10px;top:50%;transform:translateY(-50%);width:16px;height:16px;color:var(--t2);pointer-events:none}.srch input{padding-left:34px}
+.filters{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px}.filters>*{flex:1;min-width:150px}
+
+/* ---------- Tables ---------- */
+.scroll{overflow-x:auto}table{width:100%;border-collapse:collapse}
+th{text-align:left;color:var(--t2);font-weight:600;font-size:12px;padding:9px 8px;border-bottom:2px solid var(--bd);background:#f8fbfd;cursor:pointer;white-space:nowrap}
+td{padding:10px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}tbody tr{transition:background .12s}tbody tr:hover{background:#f6fbfd}
+.num{text-align:right;font-variant-numeric:tabular-nums}tfoot td{font-weight:700;background:var(--lc)}
+.tools{margin-bottom:10px;max-width:280px}.pg{display:flex;justify-content:space-between;align-items:center;margin-top:10px;color:var(--t2)}.empty{text-align:center;color:var(--t2);padding:24px}
+.badge{display:inline-block;padding:2px 9px;border-radius:6px;font-size:12px;font-weight:600;white-space:nowrap}
+.ok{background:#16a34a1a;color:var(--ok)}.warn{background:#f59e0b24;color:#b45309}.err{background:#ef44441a;color:var(--er)}.info{background:var(--lc);color:var(--s)}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 0;border-bottom:1px solid var(--bd)}.row:last-child{border:0}.row small{color:var(--t2);display:block}
+.sub{display:block;color:var(--t2);font-size:12px}
+
+/* ---------- Modal + toast ---------- */
+.ov{position:fixed;inset:0;background:rgba(0,59,112,.45);display:none;place-items:center;z-index:60;padding:16px}.ov.open{display:grid}
+.mod{background:#fff;border-radius:16px;padding:22px;width:100%;max-width:520px;max-height:90vh;overflow:auto;box-shadow:var(--sh2);animation:pop .18s ease-out}.mod h2{font-size:18px;margin-bottom:12px}.mod .act{display:flex;gap:8px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:10px}.fg label{font-size:12px;color:var(--t2)}.fg .w{grid-column:1/-1}.er{color:var(--er);font-size:12px;min-height:16px}
+#toast{position:fixed;bottom:20px;right:20px;background:var(--d);color:#fff;padding:10px 16px;border-radius:10px;z-index:99;display:none;box-shadow:var(--sh2);max-width:calc(100vw - 40px)}
+.cv{position:relative;height:260px}
+
+/* shared animation + progress bar (maintenance gears, Branch/Reports) */
+@keyframes rot{to{transform:rotate(360deg)}}
+.bar{height:8px;background:var(--lc);border-radius:4px;overflow:hidden}.bar span{display:block;height:100%;background:var(--g);border-radius:4px}
+
+/* ---------- Under Development page ---------- */
+.ud{min-height:calc(100vh - var(--hh));display:grid;place-items:center;padding:32px 16px;background:radial-gradient(circle at 50% 0,#dff3fa,transparent 60%)}
+.ud-card{width:100%;max-width:640px;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh2);padding:36px 32px;text-align:center;animation:pop .35s ease-out}
+.ud-art{width:150px;height:150px;margin:0 auto 18px}.ud-art svg{width:100%;height:100%}
+.ud-art .ring{transform-origin:80px 80px;animation:rot 14s linear infinite}.ud-art .cone{animation:bob 3.2s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-4px)}}
+.mt-art .g1{transform-origin:66px 74px;animation:rot 14s linear infinite}.mt-art .g2{transform-origin:113px 109px;animation:rot 9s linear infinite reverse}
+.ud-pill{display:inline-flex;align-items:center;gap:6px;background:var(--lc);color:var(--s);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:5px 12px}.ud-pill .ic{width:15px;height:15px}
+.ud-path{margin:12px 0 4px;color:var(--t2);font-size:13px}
+.ud-card h1{font-size:clamp(20px,3vw,28px);margin:4px 0 14px;line-height:1.25}
+.ud-card h2{font-size:17px;color:var(--s);margin-bottom:8px}
+.ud-card p.msg{color:var(--t2);max-width:460px;margin:0 auto 24px}
+.ud-warn{display:none;margin:0 auto 18px;max-width:460px}.ud-warn.show{display:flex}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* ---------- Responsive ---------- */
+@media (max-width:1100px){.brand-title::before,.brand-title::after{display:none}.pf-t{display:none}.pf{padding:3px}}
+@media (max-width:900px){
+  :root{--hb:54px;--hh:54px}
+  .hbar{padding:0 12px;gap:10px}
+  .nav-tg{display:inline-grid}
+  .nbar{display:none;position:absolute;top:100%;left:0;right:0;height:auto;max-height:calc(100vh - var(--hh));overflow:auto;flex-direction:column;align-items:stretch;padding:10px 12px 16px;box-shadow:0 18px 30px rgba(0,59,112,.25)}
+  .top.nav-open .nbar{display:flex}
+  .links{flex-direction:column;align-items:stretch;gap:2px}
+  .nl{width:100%;height:44px}.dt .cv-i{margin-left:auto}
+  .dm{position:static;min-width:0;max-width:none;margin:2px 0 4px;box-shadow:none;border:0;background:rgba(255,255,255,.08);border-radius:8px}
+  .dm::before{display:none}
+  .dm a,.dm .st{color:#e3f2fb;white-space:normal;min-height:40px}.dm2{border-left-color:rgba(255,255,255,.2)}.dm .dmi{background:rgba(255,255,255,.12);color:#fff}
+  .dm a.on,.dm a:hover,.dm a:focus-visible,.dm .st:hover,.dm .st:focus-visible,.dm .st.on{background:rgba(255,255,255,.16);color:#fff}
+  .nx{flex-wrap:wrap;padding-top:8px;border-top:1px solid rgba(255,255,255,.15);margin-top:6px}.nx>*{flex:1 1 auto}
+  .menu{position:fixed;top:calc(var(--hh) + 6px);right:12px;left:auto;width:min(320px,calc(100vw - 24px))}
+}
+@media (max-width:700px){.fg{grid-template-columns:1fr}.chip{display:none}.nx .chip{display:inline-block}.hd h1{font-size:20px}.ud-card{padding:28px 20px}}
+@media (max-width:600px){
+  :root{--hb:74px;--hh:74px}
+  .hbar{grid-template-columns:1fr auto;grid-template-rows:40px 22px;height:var(--hb);padding:4px 12px 6px;row-gap:2px}
+  .brand-title{grid-column:1/-1;grid-row:2;justify-content:center}
+  .brand-title span{font-size:13px;letter-spacing:.08em}
+  .logo-img{height:40px}.wm{font-size:20px}
+  main{padding:18px 14px}
+}
+
+/* ---------- Portal headers: wordmark (all portals); compact menus (Admin + Head Office) ---------- */
+/* "Acme.erp" wordmark: the A logo is the first letter, followed by "cme.erp" on the same baseline */
+.nav-admin .logo-wm,.nav-headoffice .logo-wm,.nav-branch .logo-wm{gap:1px;align-items:baseline}
+.nav-admin .logo-wm .logo-img,.nav-headoffice .logo-wm .logo-img,.nav-branch .logo-wm .logo-img{height:32px}
+.nav-admin .logo-txt,.nav-headoffice .logo-txt,.nav-branch .logo-txt{font-size:23px;font-weight:600;line-height:1;color:#041115;letter-spacing:-.01em;white-space:nowrap}
+@media (max-width:900px){.nav-admin .logo-wm .logo-img,.nav-headoffice .logo-wm .logo-img,.nav-branch .logo-wm .logo-img{height:28px}.nav-admin .logo-txt,.nav-headoffice .logo-txt,.nav-branch .logo-txt{font-size:20px}}
+/* compact dropdowns on desktop (mobile keeps 40px touch targets) */
+@media (min-width:901px){
+  .nav-admin .dm,.nav-headoffice .dm{padding:3px 0;min-width:168px}
+  .nav-admin .dm a,.nav-headoffice .dm a,.nav-headoffice .dm .st{gap:8px;padding:5px 10px;min-height:28px;font-size:12.5px;line-height:1.4;border-radius:0}
+  .nav-admin .dmi,.nav-headoffice .dmi{width:18px;height:18px;border-radius:4px}.nav-admin .dmi .ic,.nav-headoffice .dmi .ic{width:14px;height:14px}
+  .nav-admin .dm a:hover,.nav-admin .dm a:focus-visible,.nav-headoffice .dm a:hover,.nav-headoffice .dm a:focus-visible,
+  .nav-headoffice .dm .st:hover,.nav-headoffice .dm .st:focus-visible,.nav-headoffice .dsm.open>.st{background:#F5F7F9;color:#014A75}
+  .nav-admin .dm a:hover .dmi,.nav-admin .dm a:focus-visible .dmi,.nav-headoffice .dm a:hover .dmi,.nav-headoffice .dm a:focus-visible .dmi,
+  .nav-headoffice .dm .st:hover .dmi,.nav-headoffice .dm .st:focus-visible .dmi,.nav-headoffice .dsm.open>.st .dmi{background:#014A75;color:#fff}
+  .nav-admin .dm a:focus-visible,.nav-headoffice .dm a:focus-visible,.nav-headoffice .dm .st:focus-visible{outline:2px solid #00ACD2;outline-offset:-2px}
+  .nav-admin .dm a.on,.nav-headoffice .dm a.on{background:#F5F7F9;color:#014A75;box-shadow:inset 3px 0 0 #00ACD2}.nav-admin .dm a.on .dmi,.nav-headoffice .dm a.on .dmi{background:#014A75;color:#fff}
+  .nav-headoffice .dm .st.on{color:#014A75;box-shadow:inset 3px 0 0 #00ACD2}
+  .nav-admin #umn,.nav-headoffice #umn{padding:3px 0;width:260px}
+  .nav-admin #umn .mu,.nav-headoffice #umn .mu{padding:8px 12px 10px;margin-bottom:3px}
+  .nav-admin #umn .mi,.nav-headoffice #umn .mi{gap:8px;padding:6px 12px;min-height:30px;font-size:13px;border-radius:0}
+  .nav-admin #umn .mi:hover,.nav-admin #umn .mi:focus-visible,.nav-headoffice #umn .mi:hover,.nav-headoffice #umn .mi:focus-visible{background:#F5F7F9;color:#014A75}
+}
+
+/* ---------- Nested submenus open to the side on desktop (reusable; any depth) ----------
+   Each .dm2 is positioned against its parent item (li.dsm): right of it, top aligned with the item
+   (-4px = panel border + padding). JS (placeSub) flips it left when there is no room on the right
+   and moves it up when it would leave the viewport. No container clips it (.dm has no overflow). */
+@media (min-width:901px){
+  .dsm{position:relative}
+  .dm2{position:absolute;top:-4px;left:100%;margin:0;padding:3px 0;width:max-content;min-width:190px;max-width:min(340px,calc(100vw - 24px));
+    background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:var(--sh2);z-index:44}
+  .dsm.flip>.dm2{left:auto;right:100%}
+  .dm2 a,.dm2 .st{white-space:normal}
+  .dsm.open>.st .cv-s{transform:rotate(-90deg)}
+  /* after choosing an item, keep a hover-opened menu closed until the pointer leaves it */
+  .dd.hold:hover>.dm{display:none}
+}
+
+/* ---------- Head Office portal: approved ACME ERP palette ---------- */
+body[data-portal="headoffice"]{
+  --s:#014A75;--d:#014A75;--p:#00ACD2;--ph:#00ACD2;
+  --t:#041115;--t2:rgba(4,17,21,.68);--bd:#CCCCCC;--bg:#F5F7F9;--lc:#F5F7F9;
+  --g:#014A75;--gn:#014A75;
+  --sh:0 1px 2px rgba(4,17,21,.06);--sh2:0 8px 24px rgba(4,17,21,.12)
+}
+[data-portal="headoffice"] .top{box-shadow:0 1px 0 var(--bd)}
+[data-portal="headoffice"] .brand-title span{background:none;color:var(--s)}
+[data-portal="headoffice"] .brand-title::before,[data-portal="headoffice"] .brand-title::after{background:var(--p)}
+[data-portal="headoffice"] .ib:hover,[data-portal="headoffice"] .pf:hover,[data-portal="headoffice"] .pf[aria-expanded="true"]{border-color:var(--bd)}
+[data-portal="headoffice"] .nl{color:#fff}
+[data-portal="headoffice"] .nl:hover,[data-portal="headoffice"] .dd.open>.nl{background:rgba(255,255,255,.14)}
+[data-portal="headoffice"] .nl.on,[data-portal="headoffice"] .dd:hover>.nl.on{background:#fff;color:var(--s);box-shadow:inset 0 -3px 0 var(--p)}[data-portal="headoffice"] .nl.on .ic{color:var(--p)}
+[data-portal="headoffice"] .nx .chip{background:rgba(255,255,255,.14);color:#fff}
+[data-portal="headoffice"] .ud{background:none}
+[data-portal="headoffice"] :focus-visible{outline-color:var(--p)}
+
+/* ---------- Language selector (Head Office + Branch Office only) ---------- */
+.lang-b{width:auto;padding:0 10px;gap:6px;display:inline-flex;align-items:center;font:500 13px Rubik,'Segoe UI',sans-serif;color:#041115;white-space:nowrap}
+.lang-b>.ic:first-child{width:16px;height:16px;color:#014A75}
+.lang-b .cv-i{width:13px;height:13px;color:var(--t2);transition:transform .2s}.lang-b[aria-expanded="true"] .cv-i{transform:rotate(180deg)}
+.lang-w{position:relative;display:inline-flex}
+.lang-m{width:190px;padding:4px}
+.lang-m .mi{padding:6px 10px;font-size:13px}
+.lang-m .mi .lg-ck{visibility:hidden;width:14px;height:14px;color:#00ACD2}
+.lang-m .mi[aria-pressed="true"]{color:#014A75;font-weight:600;background:#F5F7F9}.lang-m .mi[aria-pressed="true"] .lg-ck{visibility:visible}
+@media (min-width:901px){.lang-m{left:0;right:auto}} /* opens under the selector; the mobile rule keeps menus fixed on screen */
+@media (max-width:600px){.lang-b{width:38px;padding:0;justify-content:center}.lang-b .lang-t,.lang-b .cv-i{display:none}}
+/* translated labels can be longer than English: Head Office menu items wrap instead of being clipped */
+@media (min-width:901px){
+  .nav-headoffice .dm{width:max-content;max-width:min(340px,calc(100vw - 24px))}
+  .nav-headoffice .dm a,.nav-headoffice .dm .st{white-space:normal}
+}

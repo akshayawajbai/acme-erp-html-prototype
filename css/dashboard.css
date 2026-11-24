@@ -1,0 +1,82 @@
+/* =====================================================================
+   Branch Office – approved ACME ERP palette, module sidebar,
+   Reports category bar and compact report dropdowns.
+   Scoped to body.br so the Admin / Head Office portals are unchanged.
+   ===================================================================== */
+body.br{
+  /* approved palette: #014A75 primary blue · #00ACD2 accent cyan · #041115 dark charcoal
+     #CCCCCC neutral gray · #FFFFFF white · #F5F7F9 light background */
+  --s:#014A75;--d:#014A75;--p:#00ACD2;--ph:#00ACD2;
+  --t:#041115;--t2:rgba(4,17,21,.68);--bd:#CCCCCC;--bg:#F5F7F9;--lc:#F5F7F9;
+  --g:#014A75;--gn:#014A75;
+  --sh:0 1px 2px rgba(4,17,21,.06);--sh2:0 8px 24px rgba(4,17,21,.12);
+  --sw:240px; /* sidebar width */
+  background:var(--bg);color:var(--t)
+}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+
+/* header + top navigation: solid primary blue, white selected item with a cyan indicator */
+.br .top{box-shadow:0 1px 0 var(--bd)}
+.br .brand-title span{background:none;color:var(--s)}
+.br .brand-title::before,.br .brand-title::after{background:var(--p)}
+.br .ib:hover,.br .pf:hover,.br .pf[aria-expanded="true"]{border-color:var(--bd)}
+.br .nl{color:#fff}.br .nl .ic{opacity:.85}
+.br .nl:hover{background:rgba(255,255,255,.14)}
+.br .nl.on{background:#fff;color:var(--s);box-shadow:inset 0 -3px 0 var(--p)}.br .nl.on .ic{color:var(--p)}
+.br .nl:focus-visible{outline-color:var(--p)}
+.br .chip{background:rgba(255,255,255,.14);color:#fff}
+.br :focus-visible{outline-color:var(--p)}
+
+/* main area */
+.br main{max-width:none;padding:0}
+.br .ud{background:none;min-height:calc(100vh - var(--hh) - var(--rnh,0px));padding:28px 16px}
+.br.rep{--rnh:49px}
+.br .ud-card{box-shadow:var(--sh);border-color:var(--bd);border-radius:14px;animation:none}
+.br .ud-pill{background:#fff;border:1px solid var(--p);color:var(--s)}
+.br .ud-card p.msg{color:var(--t2)}
+
+/* ---------- module sidebar ---------- */
+.side{position:fixed;top:var(--hh);bottom:0;left:0;width:var(--sw);background:#fff;border-right:1px solid var(--bd);overflow-y:auto;padding:10px 8px 16px;transition:width .2s,transform .2s;z-index:15}
+.side-h{margin:2px 10px 8px;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--t2)}
+.side details{margin-bottom:2px}
+.side summary{list-style:none;cursor:pointer;padding:7px 10px;border-radius:6px;font-size:13px;font-weight:600;line-height:1.4;color:var(--t);display:flex;align-items:center;gap:8px}
+.side summary::-webkit-details-marker{display:none}
+.side summary .ic{width:16px;height:16px;color:var(--s)}
+.side summary .cv-i{margin-left:auto;width:14px;height:14px;color:var(--t2);transition:transform .2s}.side details[open]>summary .cv-i{transform:rotate(180deg)}
+.side summary:hover{background:var(--bg)}
+.side ul{list-style:none;margin:2px 0 6px;padding:0 0 0 18px}
+.side ul a{display:block;padding:6px 10px;border-radius:6px;font-size:12.5px;line-height:1.4;color:var(--t);border-left:2px solid var(--bd);border-radius:0 6px 6px 0}
+.side ul a:hover,.side ul a:focus-visible{background:var(--bg);color:var(--s)}
+.side ul a.on{background:var(--bg);color:var(--s);font-weight:600;border-left-color:var(--p)}
+.has-side main{margin-left:var(--sw);transition:margin .2s}
+.col .side{width:60px;padding:10px 6px}.col .side ul,.col .side .t,.col .side .cv-i,.col .side .side-h{display:none}.col .side summary{justify-content:center;padding:9px 0}
+.col main{margin-left:60px}
+
+/* ---------- Reports category bar ---------- */
+.rnav{background:#fff;border-bottom:1px solid var(--bd);padding:0 12px}
+.rc{display:flex;gap:2px;list-style:none;margin:0;padding:6px 0;overflow-x:auto;scrollbar-width:thin}
+.rc>li{flex:none}
+.rc-b{display:flex;align-items:center;gap:6px;height:36px;padding:0 12px;border:0;border-radius:6px;background:none;font:500 13px Rubik,'Segoe UI',sans-serif;color:var(--t);white-space:nowrap;cursor:pointer;position:relative}
+.rc-b .cv-i{width:13px;height:13px;color:var(--t2);transition:transform .15s}
+.rc-b:hover,.rdd.open>.rc-b{background:var(--bg);color:var(--s)}
+.rdd.open>.rc-b .cv-i{transform:rotate(180deg)}
+.rc-b.on{color:var(--s);font-weight:600}.rc-b.on::after{content:"";position:absolute;left:10px;right:10px;bottom:-6px;height:3px;border-radius:3px 3px 0 0;background:var(--p)}
+/* compact dropdown: fixed so the scrollable bar does not clip it; JS keeps it inside the viewport */
+.rdm{display:none;position:fixed;z-index:30;min-width:220px;max-width:380px;max-height:min(65vh,420px);overflow-y:auto;overscroll-behavior:contain;list-style:none;margin:0;padding:4px;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:var(--sh2)}
+.rdd.open>.rdm{display:block}
+.rdm a{display:block;padding:6px 10px;border-radius:6px;font-size:12.5px;line-height:1.4;color:var(--t)}
+.rdm a:hover,.rdm a:focus-visible{background:var(--bg);color:var(--s);outline:none;box-shadow:inset 2px 0 0 var(--p)}
+.rdm a.on{background:var(--bg);color:var(--s);font-weight:600;box-shadow:inset 3px 0 0 var(--p)}
+
+/* ---------- tablet / mobile ---------- */
+@media (max-width:900px){
+  .side{transform:translateX(-100%);width:min(280px,86vw)!important;box-shadow:var(--sh2);z-index:35}
+  .has-side main,.col main{margin-left:0}
+  .open-side .side{transform:none}
+  .col .side ul{display:block}.col .side .t,.col .side .cv-i{display:inline}.col .side .side-h{display:block}.col .side summary{justify-content:flex-start;padding:7px 10px}
+  .side summary,.side ul a{min-height:40px;display:flex;align-items:center}
+  .rc-b{height:40px}.rdm a{min-height:40px;display:flex;align-items:center}
+  .br.rep{--rnh:53px}
+  .br .chip{display:none}
+}
+@media (max-width:600px){.br .ud{padding:20px 12px}}

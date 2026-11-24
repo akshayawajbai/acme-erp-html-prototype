@@ -1,0 +1,21 @@
+# Dependencies / local tooling
+node_modules/
+.vscode/
+.cursor/
+.claude/
+
+# Environment files (never commit secrets)
+.env
+.env.*
+!.env.example
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and archives
+*.log
+*.zip
+
+# Older prototype copy kept locally for reference (not used by the site)
+Dashboards/

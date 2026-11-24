@@ -1,0 +1,13 @@
+<!doctype html><html lang=en><head><meta charset=utf-8><link rel=icon href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23005B96%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27Arial%27 font-weight=%27700%27 font-size=%2715%27 fill=%27%23fff%27 text-anchor=%27middle%27%3EA%3C/text%3E%3C/svg%3E"><meta name=viewport content="width=device-width,initial-scale=1"><title>Under Maintenance – AcME ERP</title>
+<link rel=stylesheet href="css/style.css"></head><body><div id=top></div>
+<main class=ud id=maint style="max-width:none;margin:0"></main>
+<script src="js/mock-data.js"></script><script src="locales/en.js"></script><script src="locales/fr.js"></script><script src="locales/pt.js"></script><script src="js/i18n.js"></script><script src="js/app.js"></script><script src="js/maintenance.js"></script>
+<script>
+/* under-maintenance.html?module=<menu item>&role=<admin|headoffice> */
+(function initUnderMaintenance(){
+  const navRole=maintNavRole(),v=maintView(navRole);
+  topbar('','',{navRole,active:v.active}); /* "Home" highlights the portal's first menu item */
+  renderMaintenance($('#maint'),v.opts);
+  maintInPlace(navRole); /* Admin: menu items update this view without reloading */
+})();
+</script></body></html>
