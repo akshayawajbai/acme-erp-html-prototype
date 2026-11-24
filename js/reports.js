@@ -3,9 +3,9 @@ const RT=['Receipts and Payments','Income and Expenditure','Trial Balance','Bala
 const mult={admin:40,headoffice:8,branch:1}[role];$('#sc').textContent={admin:'Organization-wide data (all Head Offices)',headoffice:'Your Head Office and its branches',branch:'Your branch data only'}[role];
 const opt=a=>a.map(x=>`<option>${x}</option>`).join('');$('#ho').innerHTML=opt(['All Head Offices',...HO.map(h=>h.name)]);$('#br').innerHTML=opt(['All Branches',...PROJECTS.slice(0,5)]);$('#pj').innerHTML=opt(['All Projects','Hostel','Local']);$('#fy').innerHTML=opt(FYS);$('#rt').innerHTML=opt(RT);
 $('#ho').disabled=role!='admin';$('#br').disabled=role=='branch';
-const t=DT($('#t'),[{t:'Month',k:'m'},{t:'Receipts',k:'r',r:1,f:x=>inr(x.r)},{t:'Payments',k:'p',r:1,f:x=>inr(x.p)},{t:'Difference',k:'d',r:1,f:x=>inr(x.d)}],[],6);
+const rt=DT($('#t'),[{t:'Month',k:'m'},{t:'Receipts',k:'r',r:1,f:x=>inr(x.r)},{t:'Payments',k:'p',r:1,f:x=>inr(x.p)},{t:'Difference',k:'d',r:1,f:x=>inr(x.d)}],[],6);
 function gen(){const f=$('#fy').value==FYS[0]?1:.92,fd=new Date($('#fd').value),td=new Date($('#td').value);const rows=MONTHS.map((m,i)=>{const y=i<9?(+$('#fy').value.slice(0,4)):(+$('#fy').value.slice(0,4)+1),d=new Date(y,[3,4,5,6,7,8,9,10,11,0,1,2][i],1);const r=Math.round(REC[i]*mult*f),p=Math.round(PAY[i]*mult*f);return{m,d,r,p,bud:Math.round(r*1.05),dif:r-p}}).filter(x=>x.r>0&&(isNaN(fd)||x.d>=new Date(fd.getFullYear(),fd.getMonth(),1))&&(isNaN(td)||x.d<=td)).map(x=>({...x,d:x.dif}));
-window.D=rows;t.set(rows.map(x=>({m:x.m,r:x.r,p:x.p,d:x.d,bud:x.bud})));const R=rows.reduce((a,x)=>a+x.r,0),P=rows.reduce((a,x)=>a+x.p,0);
+window.D=rows;rt.set(rows.map(x=>({m:x.m,r:x.r,p:x.p,d:x.d,bud:x.bud})));const R=rows.reduce((a,x)=>a+x.r,0),P=rows.reduce((a,x)=>a+x.p,0);
 $('#rh').textContent=$('#rt').value+' – FY '+$('#fy').value;$('#gt').textContent=`Grand total: Receipts ${inr(R)} · Payments ${inr(P)} · Difference ${inr(R-P)}`;
 $('#k').innerHTML=[['Total Receipts',inr(R)],['Total Payments',inr(P)],['Surplus',inr(R-P)],['Budget Utilised',R?Math.round(P/R*100)+'%':'0%']].map((k,i)=>`<div class="card kpi ${i==2?'hero':''}"><small>${k[0]}</small><b>${k[1]}</b></div>`).join('');
 const L=rows.map(x=>x.m);chart('c1','bar',L,[{label:'Receipts',data:rows.map(x=>x.r),backgroundColor:C.s},{label:'Payments',data:rows.map(x=>x.p),backgroundColor:C.o}]);
