@@ -1,9 +1,108 @@
-.split{display:grid;grid-template-columns:1.1fr 1fr;min-height:100vh}.l{background:linear-gradient(160deg,#EAF7FC,#fff 60%,#cdeef5);padding:48px;display:flex;flex-direction:column;gap:18px;justify-content:center}.l h1{font-size:36px;color:var(--s);max-width:520px;line-height:1.15}.l p{max-width:460px;color:var(--t2);margin:0}.pv{max-width:480px;box-shadow:0 20px 50px #087ea426}
-.r{display:grid;place-items:center;padding:24px}.fm{width:100%;max-width:380px;display:grid;gap:12px}.fm label{display:grid;gap:4px;font-weight:600;font-size:13px}.opts{display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px;font-size:12px}.opts label{display:flex;align-items:center;gap:4px;font-weight:400}.demo{display:flex;gap:8px}.demo .btn{flex:1}
-@media(max-width:800px){.split{grid-template-columns:1fr}.l{padding:28px}.l h1{font-size:26px}}
-.brand-row{display:flex;flex-direction:column;gap:6px}.brand-sub{font-weight:700;letter-spacing:.1em;font-size:13px;margin:0!important;background:linear-gradient(90deg,var(--d),var(--s) 45%,var(--p));-webkit-background-clip:text;background-clip:text;color:transparent!important}
-.l h1{color:var(--d)}.fm h1{color:var(--d)}.fm{background:#fff;border:1px solid var(--bd);border-radius:18px;padding:28px;box-shadow:0 20px 50px rgba(0,59,112,.10)}.r{background:var(--bg)}
-@media(max-width:480px){.fm{padding:20px}.demo{flex-wrap:wrap}}
+/* ACME ERP login page – light accounting theme, fits one screen on desktop, scrolls naturally on small screens */
+body.login{
+  --s:#014A75;--p:#00ACD2;--ph:#0096B8;--d:#041115;--bg:#F5F7F9;--bd:#D9E6EF;--t:#041115;--t2:#52606D;
+  --g:linear-gradient(135deg,#00ACD2,#014A75);
+  min-height:100vh;min-height:100dvh;
+  background:
+    radial-gradient(ellipse 60% 55% at 0% 100%,#CDEBFD 0%,transparent 70%),
+    radial-gradient(ellipse 45% 40% at 100% 0%,#E1F1FC 0%,transparent 70%),
+    linear-gradient(160deg,#E4F2FD 0%,#EFF8FE 45%,#F5F9FC 100%);
+  overflow-x:hidden;position:relative
+}
+/* two soft background circles drifting slowly (decorative) */
+body.login::before,body.login::after{content:"";position:fixed;border-radius:50%;pointer-events:none;z-index:0;
+  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.9),rgba(205,235,253,.35) 70%);border:1px solid rgba(255,255,255,.7)}
+body.login::before{width:180px;height:180px;left:46%;top:-70px;animation:lgDrift 14s ease-in-out infinite}
+body.login::after{width:120px;height:120px;right:4%;bottom:6%;animation:lgDrift 18s ease-in-out infinite reverse}
 
-/* real ACME logo (assets/acme-logo.png) shown larger on the login page */
-.brand-row .logo-img{height:72px}
+.lg{position:relative;z-index:1;box-sizing:border-box;min-height:100vh;min-height:100dvh;display:grid;
+  grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:clamp(24px,4vw,64px);
+  padding:clamp(20px,4vh,48px) clamp(24px,5vw,80px);align-items:stretch;width:100%;max-width:1560px;margin:0 auto}
+
+/* ---------- left: brand, message, illustration ---------- */
+.lg-l{display:flex;flex-direction:column;justify-content:center;gap:clamp(12px,2.5vh,28px);min-width:0;animation:lgFade .6s ease-out both}
+.lg-intro{display:flex;flex-direction:column;gap:clamp(8px,1.6vh,14px)}
+.brand-row{display:flex;flex-direction:column;gap:6px}
+.lg-wm{display:flex;align-items:baseline;gap:1px}
+.lg-wm .logo-img{height:clamp(36px,5vh,46px);width:auto}
+.lg-wm .logo-txt{font-size:clamp(26px,3.6vh,33px);font-weight:600;line-height:1;color:var(--d);letter-spacing:-.01em}
+.lg-wm .logo-img[hidden]~.logo-txt{display:none}
+.brand-sub{font-weight:700;letter-spacing:.12em;font-size:12.5px;margin:0;color:var(--s)}
+.lg-l h1{margin:0;font-size:clamp(24px,2.3vw + .9vh,38px);line-height:1.18;font-weight:700;color:var(--d);max-width:560px}
+.lg-desc{margin:0;max-width:480px;color:var(--t2);font-size:15px}
+
+/* the chosen image contains a large empty area on the right; only its illustration (left part) is shown, faded at the edges */
+.ill-box{position:relative;flex:1 1 0;min-height:170px;max-height:540px;container-type:size;display:grid;place-items:center start}
+.ill{position:relative;width:min(100cqw,133.333cqh);aspect-ratio:4/3;overflow:hidden;
+  -webkit-mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 72%,transparent 100%);mask-image:radial-gradient(ellipse 50% 50% at 50% 50%,#000 72%,transparent 100%);
+  animation:floatAccounting 6s ease-in-out infinite}
+/* crop window = 800×600 px of the 1672×941 source, starting at y=300 (no scaling distortion: width and offset share one scale) */
+.ill img{position:absolute;left:0;top:-50%;width:209%;max-width:none;height:auto}
+
+/* small glass chips with accounting icons, floating gently */
+.chip{position:absolute;display:grid;place-items:center;width:46px;height:46px;border-radius:14px;
+  background:rgba(255,255,255,.75);border:1px solid rgba(255,255,255,.9);box-shadow:0 10px 24px rgba(1,74,117,.12);
+  -webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);color:var(--s)}
+.chip svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.chip.c1{left:min(calc(100cqw - 56px),calc(133cqh - 30px));top:12%;color:#0A8F6A;animation:floatChip 7s ease-in-out infinite}
+.chip.c2{left:min(calc(100cqw - 70px),calc(118cqh - 20px));top:58%;color:var(--p);animation:floatChip 8s ease-in-out -2s infinite}
+.chip.c3{left:2%;top:4%;animation:floatChip 9s ease-in-out -4s infinite}
+
+/* ---------- right: sign-in card ---------- */
+.lg-r{display:grid;place-items:center;min-width:0}
+.fm{width:100%;max-width:400px;display:grid;gap:12px;background:rgba(255,255,255,.94);border:1px solid rgba(217,230,239,.9);
+  border-radius:18px;padding:clamp(22px,3.6vh,32px) 28px;box-shadow:0 24px 60px rgba(1,74,117,.12),0 2px 6px rgba(1,74,117,.05);animation:lgFade .6s .1s ease-out both}
+.fm-h{margin-bottom:4px}
+.fm-h h1{margin:0 0 4px;font-size:26px;line-height:1.2;color:var(--d)}
+.fm-h p{margin:0;color:var(--t2);font-size:13.5px}
+.fm label{display:grid;gap:5px;font-weight:600;font-size:13px;color:var(--d)}
+.fm input:not([type=checkbox]){height:42px;padding:0 12px;border:1px solid var(--bd);border-radius:10px;background:#fff;color:var(--d);transition:border-color .15s,box-shadow .15s}
+.fm input::placeholder{color:#94A3B0}
+.fm input:not([type=checkbox]):hover{border-color:#B8CFDF}
+.fm input:not([type=checkbox]):focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(0,172,210,.2)}
+.opts{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px 10px;font-size:12.5px}
+.opts label{display:flex;align-items:center;gap:6px;font-weight:400;color:var(--t2);cursor:pointer}
+.opts input[type=checkbox]{width:15px;height:15px;margin:0;accent-color:var(--s);cursor:pointer}
+#fp{color:var(--s);font-weight:500;text-decoration:none;margin-left:auto}#fp:hover{text-decoration:underline}
+.fm .er{min-height:16px;margin:-4px 0}
+.fm .er:empty{min-height:0;margin:-6px 0}
+.lg-btn{width:100%;height:44px;font-size:14px;border-radius:10px;box-shadow:0 8px 18px rgba(0,172,210,.28)}
+.lg-btn:hover{background:linear-gradient(135deg,#0096B8,#013A5D)}
+.fm :focus-visible{outline:2px solid var(--p);outline-offset:2px}
+.demo-h{display:flex;align-items:center;gap:10px;color:var(--t2);font-size:12px;margin-top:2px}
+.demo-h::before,.demo-h::after{content:"";flex:1;height:1px;background:var(--bd)}
+.demo{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.demo .btn{padding:8px 6px;font-size:12.5px;border-radius:9px;color:var(--s);white-space:nowrap}
+.demo .btn:hover{border-color:var(--p);background:#F0FAFD}
+
+/* ---------- animation ---------- */
+@keyframes floatAccounting{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+@keyframes floatChip{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+@keyframes lgDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(14px,10px)}}
+@keyframes lgFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){
+  .ill,.chip,.lg-l,.fm,body.login::before,body.login::after{animation:none!important}
+}
+
+/* ---------- tablet ---------- */
+@media (max-width:1100px){
+  .lg{grid-template-columns:minmax(0,1fr) minmax(330px,380px);gap:28px;padding:28px 28px}
+  .lg-l h1{font-size:26px}
+  .lg-desc{font-size:14px}
+  .ill-box{max-height:320px}
+  .fm{padding:24px 22px}
+}
+/* ---------- mobile / narrow: stacked, form first after the brand; page scrolls naturally ---------- */
+@media (max-width:720px){
+  .lg{grid-template-columns:1fr;align-content:start;gap:20px;padding:24px 16px 32px}
+  .lg-l{gap:10px}
+  .lg-l h1{font-size:22px}
+  .lg-desc{display:none}
+  .ill-box{display:none}
+  .fm{max-width:440px;padding:22px 18px}
+  body.login::before{width:120px;height:120px}
+  body.login::after{display:none}
+}
+@media (max-width:360px){
+  .demo{grid-template-columns:1fr}
+}

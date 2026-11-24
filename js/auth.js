@@ -1,4 +1,3 @@
-chart('c','line',MONTHS.slice(0,8),[{label:'Receipts',data:REC.slice(0,8),borderColor:C.p,backgroundColor:'#00a8cc33',fill:true,tension:.4},{label:'Payments',data:PAY.slice(0,8),borderColor:C.o,tension:.4}],{plugins:{legend:{display:false}},scales:{y:{display:false},x:{grid:{display:false}}}});
 $('#sp').onchange=e=>$('#pw').type=e.target.checked?'text':'password';
 $('#fp').onclick=e=>{e.preventDefault();modal('Forgot password','<p>Demo only: use password <b>demo123</b> with any demo account.</p>')};
 $$('.demo .btn').forEach(b=>b.onclick=()=>{$('#u').value=b.dataset.u;$('#pw').value='demo123'});
