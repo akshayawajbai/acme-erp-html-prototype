@@ -53,9 +53,9 @@ const sideAnim=!matchMedia('(prefers-reduced-motion:reduce)').matches;
 function toggleGroup(d){const ul=$('ul',d),opening=!d.open||d.classList.contains('closing');if(d._a){d._a.cancel();d._a=null}
   if(!sideAnim||!ul||!ul.animate){d.open=opening;return}
   if(opening){d.open=true;const h=ul.scrollHeight;
-    d._a=ul.animate([{height:'0px',opacity:0},{height:h+'px',opacity:1}],{duration:180,easing:'ease-out'});d._a.onfinish=()=>d._a=null}
+    d._a=ul.animate([{height:'0px',opacity:0},{height:h+'px',opacity:1}],{duration:230,easing:'cubic-bezier(.2,.7,.3,1)'});d._a.onfinish=()=>d._a=null}
   else{d.classList.add('closing');const h=ul.scrollHeight;
-    d._a=ul.animate([{height:h+'px',opacity:1},{height:'0px',opacity:0}],{duration:160,easing:'ease-in'});
+    d._a=ul.animate([{height:h+'px',opacity:1},{height:'0px',opacity:0}],{duration:210,easing:'cubic-bezier(.4,0,.6,1)'});
     d._a.onfinish=()=>{d.open=false;d.classList.remove('closing');d._a=null};d._a.oncancel=()=>d.classList.remove('closing')}}
 $('#sb').addEventListener('click',e=>{const s=e.target.closest('summary');if(!s)return;e.preventDefault();
   if(document.body.classList.contains('col')){document.body.classList.remove('col');$('#sbt').setAttribute('aria-expanded','true');s.parentElement.open=true;return}
