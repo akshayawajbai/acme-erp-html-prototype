@@ -11,9 +11,12 @@
   --rad:12px;
   --sh:0 1px 2px rgba(0,59,112,.05),0 4px 14px rgba(0,59,112,.05);
   --sh2:0 16px 40px rgba(0,59,112,.18);
-  --hb:54px;--nb:48px;--hh:102px; /* header bar, nav bar, total header height (54 + 48) */
+  --hb:54px;--nb:40px;--hh:94px; /* header bar, nav bar, total header height (54 + 40); JS (topbar) replaces --hh with the measured header height */
+  --hv:rgba(0,168,204,.11); /* row hover tint (dropdowns, sidebar, report menus) */
 }
-*{box-sizing:border-box}[hidden]{display:none!important}
+/* invisible scrollbars in the portals (html.app is set by topbar); wheel, touchpad, touch and keyboard scrolling still work */
+html.app,html.app *{scrollbar-width:none;-ms-overflow-style:none}
+html.app::-webkit-scrollbar,html.app *::-webkit-scrollbar{width:0;height:0;display:none}*{box-sizing:border-box}[hidden]{display:none!important}
 body{margin:0;font:14px/1.5 Rubik,'Segoe UI',system-ui,sans-serif;color:var(--t);background:var(--bg)}
 a{color:inherit;text-decoration:none}
 h1,h2,h3{margin:0}h1{font-size:24px;color:var(--d)}h2{font-size:15px;color:var(--d)}
@@ -60,10 +63,10 @@ h1,h2,h3{margin:0}h1{font-size:24px;color:var(--d)}h2{font-size:15px;color:var(-
 @keyframes pop{from{opacity:0;transform:translateY(-6px)}to{opacity:1;transform:none}}
 
 /* ---------- Main navigation ---------- */
-.nbar{display:flex;align-items:center;gap:12px;height:var(--nb);padding:0 14px;background:var(--gn)}
-.links{display:flex;align-items:center;gap:2px;list-style:none;margin:0;padding:0;flex:1;min-width:0}
+.nbar{display:flex;align-items:center;gap:8px;height:var(--nb);padding:0 10px;background:var(--gn)}
+.links{display:flex;align-items:center;gap:3px;list-style:none;margin:0;padding:0;flex:1;min-width:0}
 .links>li{position:relative}
-.nl{display:flex;align-items:center;gap:8px;height:36px;padding:0 13px;border-radius:9px;border:0;background:none;color:#d6ecf8;font:500 14px Rubik,'Segoe UI',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
+.nl{display:flex;align-items:center;gap:5px;height:auto;min-width:0;margin:0;padding:5px 8px;line-height:20px;border-radius:7px;border:0;background:none;color:#d6ecf8;font:500 14px Rubik,'Segoe UI',sans-serif;cursor:pointer;white-space:nowrap;transition:background .15s,color .15s}
 .nl .ic{width:17px;height:17px;opacity:.9}.nl .cv-i{width:14px;height:14px;transition:transform .2s}
 .nl:hover,.dd.open>.nl{background:rgba(255,255,255,.12);color:#fff}
 .nl.on{background:#fff;color:var(--s);box-shadow:0 2px 8px rgba(0,0,0,.12)}.nl.on .ic{opacity:1;color:var(--p)}
@@ -72,20 +75,25 @@ h1,h2,h3{margin:0}h1{font-size:24px;color:var(--d)}h2{font-size:15px;color:var(-
 .dm{display:none;position:absolute;top:calc(100% + 6px);left:0;min-width:180px;max-width:min(300px,calc(100vw - 24px));list-style:none;margin:0;padding:4px;background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:var(--sh2);z-index:42}
 .dm::before{content:"";position:absolute;left:0;right:0;top:-8px;height:8px} /* hover bridge */
 .dd.open>.dm{display:block;animation:pop .16s ease-out}
-.dm a,.dm .st{display:flex;align-items:center;gap:8px;width:100%;padding:6px 10px;border:0;background:none;font-family:inherit;text-align:left;cursor:pointer;border-radius:6px;font-size:12.5px;line-height:1.4;color:var(--t);font-weight:500;white-space:nowrap;transition:background .12s,color .12s}
-.dmi{width:22px;height:22px;border-radius:5px;background:var(--lc);color:var(--s);display:grid;place-items:center;flex:none;transition:background .12s,color .12s}.dmi .ic{width:14px;height:14px}
-.dm a:hover,.dm a:focus-visible,.dm .st:hover,.dm .st:focus-visible{background:var(--lc);color:var(--s);outline:none}.dm a:hover .dmi,.dm a:focus-visible .dmi,.dm .st:hover .dmi,.dm .st:focus-visible .dmi{background:var(--g);color:#fff}
+/* dropdown rows: the whole row (icon + text + full width) is the link and the hover target */
+.dm a,.dm .st{display:flex;align-items:center;gap:6px;width:100%;margin:0;padding:5px 8px;border:0;background:none;font-family:inherit;text-align:left;cursor:pointer;border-radius:6px;font-size:12.5px;line-height:1.4;color:var(--t);font-weight:500;white-space:nowrap;transition:background-color .16s ease,color .16s ease}
+.dmi{width:20px;height:20px;border-radius:5px;background:var(--lc);color:var(--s);display:grid;place-items:center;flex:none;transition:background-color .16s ease,color .16s ease,transform .16s ease}.dmi .ic{width:14px;height:14px}
+.dm a:hover,.dm .st:hover,.dm a:focus-visible,.dm .st:focus-visible,.dsm.open>.st{background:var(--hv);color:var(--s)}
+/* icon tile animation (with the full-row highlight): fills with primary blue, icon turns white, slight pop */
+.dm a:hover .dmi,.dm .st:hover .dmi,.dm a:focus-visible .dmi,.dm .st:focus-visible .dmi,.dsm.open>.st .dmi{background:var(--g);color:#fff;transform:scale(1.08)}
+.dm a:focus-visible,.dm .st:focus-visible{outline:2px solid var(--p);outline-offset:-2px}
 /* nested submenus: expand inside the panel (no off-screen flyouts) */
 .dm .st .cv-s{width:14px;height:14px;margin-left:auto;transform:rotate(-90deg);transition:transform .15s;flex:none}
 .dsm.open>.st .cv-s{transform:none}.dm .st.on{color:var(--s);font-weight:600}
 .dm2{display:none;list-style:none;margin:2px 0 4px 20px;padding:0 0 0 8px;border-left:2px solid var(--lc)}.dsm.open>.dm2{display:block}
-.dm2 a{padding:5px 10px}
-.dm a.on{background:var(--lc);color:var(--s);font-weight:600}.dm a.on .dmi{background:var(--g);color:#fff}
+.dm2 a{padding:5px 8px}
+/* active (current page): tinted row + cyan indicator + bold text; clearly different from hover */
+.dm a.on{background:var(--hv);color:var(--s);font-weight:600;box-shadow:inset 3px 0 0 var(--p)}.dm a.on .dmi{background:var(--g);color:#fff}
 .nx{display:flex;align-items:center;gap:8px;flex:none}.nx .chip{background:rgba(255,255,255,.14);color:#fff}
 @media (hover:hover) and (min-width:901px){.dd:hover>.dm{display:block}.dd:hover>.nl{background:rgba(255,255,255,.12);color:#fff}.dd:hover>.nl.on{background:#fff;color:var(--s)}}
-@media (min-width:901px) and (max-width:1180px){.nl{padding:0 10px}.links>li:nth-last-child(-n+2) .dm{left:auto;right:0}.nx .chip{display:none}}
+@media (min-width:901px) and (max-width:1180px){.links>li:nth-last-child(-n+2) .dm{left:auto;right:0}.nx .chip{display:none}}
 /* long menus (e.g. Head Office: 9 modules) – tighten so they stay on one row on laptops */
-@media (min-width:901px) and (max-width:1100px){.nbar{padding:0 8px}.nl{padding:0 8px;gap:6px;font-size:13px}.nl .ic{width:15px;height:15px}.nl .cv-i{width:12px;height:12px}}
+@media (min-width:901px) and (max-width:1100px){.nbar{padding:0 8px}.links{gap:2px}.nl{padding:5px 6px;font-size:13px}.nl .ic{width:15px;height:15px}.nl .cv-i{width:12px;height:12px}}
 
 /* ---------- Layout ---------- */
 main{max-width:1400px;margin:0 auto;padding:24px 20px}
@@ -137,18 +145,20 @@ td{padding:10px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}tbody t
 .bar{height:8px;background:var(--lc);border-radius:4px;overflow:hidden}.bar span{display:block;height:100%;background:var(--g);border-radius:4px}
 
 /* ---------- Under Development page ---------- */
-.ud{min-height:calc(100vh - var(--hh));display:grid;place-items:center;padding:32px 16px;background:radial-gradient(circle at 50% 0,#dff3fa,transparent 60%)}
-.ud-card{width:100%;max-width:640px;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh2);padding:36px 32px;text-align:center;animation:pop .35s ease-out}
-.ud-art{width:150px;height:150px;margin:0 auto 18px}.ud-art svg{width:100%;height:100%}
+/* fills exactly the space below the header (measured --hh) and centres the card; spacing scales with viewport height so it fits without scrolling */
+.ud{min-height:calc(100vh - var(--hh));min-height:calc(100dvh - var(--hh));display:grid;place-items:center;align-content:center;padding:clamp(12px,3vh,28px) 16px;background:radial-gradient(circle at 50% 0,#dff3fa,transparent 60%)}
+.ud-card{width:100%;max-width:600px;background:#fff;border:1px solid var(--bd);border-radius:20px;box-shadow:var(--sh2);padding:clamp(18px,4vh,30px) clamp(18px,3vw,30px);text-align:center;animation:pop .35s ease-out}
+.ud-art{width:clamp(84px,17vh,136px);height:clamp(84px,17vh,136px);margin:0 auto clamp(8px,1.6vh,14px)}.ud-art svg{width:100%;height:100%}
 .ud-art .ring{transform-origin:80px 80px;animation:rot 14s linear infinite}.ud-art .cone{animation:bob 3.2s ease-in-out infinite}
 @keyframes bob{50%{transform:translateY(-4px)}}
 .mt-art .g1{transform-origin:66px 74px;animation:rot 14s linear infinite}.mt-art .g2{transform-origin:113px 109px;animation:rot 9s linear infinite reverse}
 .ud-pill{display:inline-flex;align-items:center;gap:6px;background:var(--lc);color:var(--s);font-weight:600;font-size:12px;letter-spacing:.06em;text-transform:uppercase;border-radius:999px;padding:5px 12px}.ud-pill .ic{width:15px;height:15px}
-.ud-path{margin:12px 0 4px;color:var(--t2);font-size:13px}
-.ud-card h1{font-size:clamp(20px,3vw,28px);margin:4px 0 14px;line-height:1.25}
-.ud-card h2{font-size:17px;color:var(--s);margin-bottom:8px}
-.ud-card p.msg{color:var(--t2);max-width:460px;margin:0 auto 24px}
-.ud-warn{display:none;margin:0 auto 18px;max-width:460px}.ud-warn.show{display:flex}
+.ud-path{margin:clamp(6px,1.4vh,12px) 0 2px;color:var(--t2);font-size:13px}
+.ud-card h1{font-size:clamp(20px,3vw,28px);margin:2px 0 clamp(6px,1.4vh,12px);line-height:1.25}
+.ud-card h2{font-size:17px;color:var(--s);margin-bottom:6px}
+.ud-card p.msg{color:var(--t2);max-width:460px;margin:0 auto clamp(12px,2.4vh,20px)}
+.ud-card>:last-child{margin-bottom:0}
+.ud-warn{display:none;margin:0 auto clamp(10px,2vh,16px);max-width:460px}.ud-warn.show{display:flex}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
 
 /* ---------- Responsive ---------- */
@@ -160,7 +170,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}tbody t
   .nbar{display:none;position:absolute;top:100%;left:0;right:0;height:auto;max-height:calc(100vh - var(--hh));overflow:auto;flex-direction:column;align-items:stretch;padding:10px 12px 16px;box-shadow:0 18px 30px rgba(0,59,112,.25)}
   .top.nav-open .nbar{display:flex}
   .links{flex-direction:column;align-items:stretch;gap:2px}
-  .nl{width:100%;height:44px}.dt .cv-i{margin-left:auto}
+  .nl{width:100%;height:44px;padding:0 12px;gap:8px}.dt .cv-i{margin-left:auto}
   .dm{position:static;min-width:0;max-width:none;margin:2px 0 4px;box-shadow:none;border:0;background:rgba(255,255,255,.08);border-radius:8px}
   .dm::before{display:none}
   .dm a,.dm .st{color:#e3f2fb;white-space:normal;min-height:40px}.dm2{border-left-color:rgba(255,255,255,.2)}.dm .dmi{background:rgba(255,255,255,.12);color:#fff}
@@ -168,7 +178,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}tbody t
   .nx{flex-wrap:wrap;padding-top:8px;border-top:1px solid rgba(255,255,255,.15);margin-top:6px}.nx>*{flex:1 1 auto}
   .menu{position:fixed;top:calc(var(--hh) + 6px);right:12px;left:auto;width:min(320px,calc(100vw - 24px))}
 }
-@media (max-width:700px){.fg{grid-template-columns:1fr}.chip{display:none}.nx .chip{display:inline-block}.hd h1{font-size:20px}.ud-card{padding:28px 20px}}
+@media (max-width:700px){.fg{grid-template-columns:1fr}.chip{display:none}.nx .chip{display:inline-block}.hd h1{font-size:20px}.ud-card{padding:22px 18px}}
 @media (max-width:600px){
   :root{--hb:74px;--hh:74px}
   .hbar{grid-template-columns:1fr auto;grid-template-rows:40px 22px;height:var(--hb);padding:4px 12px 6px;row-gap:2px}
@@ -186,20 +196,13 @@ td{padding:10px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}tbody t
 @media (max-width:900px){.nav-admin .logo-wm .logo-img,.nav-headoffice .logo-wm .logo-img,.nav-branch .logo-wm .logo-img{height:28px}.nav-admin .logo-txt,.nav-headoffice .logo-txt,.nav-branch .logo-txt{font-size:20px}}
 /* compact dropdowns on desktop (mobile keeps 40px touch targets) */
 @media (min-width:901px){
-  .nav-admin .dm,.nav-headoffice .dm{padding:3px 0;min-width:168px}
-  .nav-admin .dm a,.nav-headoffice .dm a,.nav-headoffice .dm .st{gap:8px;padding:5px 10px;min-height:28px;font-size:12.5px;line-height:1.4;border-radius:0}
-  .nav-admin .dmi,.nav-headoffice .dmi{width:18px;height:18px;border-radius:4px}.nav-admin .dmi .ic,.nav-headoffice .dmi .ic{width:14px;height:14px}
-  .nav-admin .dm a:hover,.nav-admin .dm a:focus-visible,.nav-headoffice .dm a:hover,.nav-headoffice .dm a:focus-visible,
-  .nav-headoffice .dm .st:hover,.nav-headoffice .dm .st:focus-visible,.nav-headoffice .dsm.open>.st{background:#F5F7F9;color:#014A75}
-  .nav-admin .dm a:hover .dmi,.nav-admin .dm a:focus-visible .dmi,.nav-headoffice .dm a:hover .dmi,.nav-headoffice .dm a:focus-visible .dmi,
-  .nav-headoffice .dm .st:hover .dmi,.nav-headoffice .dm .st:focus-visible .dmi,.nav-headoffice .dsm.open>.st .dmi{background:#014A75;color:#fff}
-  .nav-admin .dm a:focus-visible,.nav-headoffice .dm a:focus-visible,.nav-headoffice .dm .st:focus-visible{outline:2px solid #00ACD2;outline-offset:-2px}
-  .nav-admin .dm a.on,.nav-headoffice .dm a.on{background:#F5F7F9;color:#014A75;box-shadow:inset 3px 0 0 #00ACD2}.nav-admin .dm a.on .dmi,.nav-headoffice .dm a.on .dmi{background:#014A75;color:#fff}
-  .nav-headoffice .dm .st.on{color:#014A75;box-shadow:inset 3px 0 0 #00ACD2}
-  .nav-admin #umn,.nav-headoffice #umn{padding:3px 0;width:260px}
-  .nav-admin #umn .mu,.nav-headoffice #umn .mu{padding:8px 12px 10px;margin-bottom:3px}
-  .nav-admin #umn .mi,.nav-headoffice #umn .mi{gap:8px;padding:6px 12px;min-height:30px;font-size:13px;border-radius:0}
-  .nav-admin #umn .mi:hover,.nav-admin #umn .mi:focus-visible,.nav-headoffice #umn .mi:hover,.nav-headoffice #umn .mi:focus-visible{background:#F5F7F9;color:#014A75}
+  /* dropdown rows share the base .dm rules above in every portal (same padding, full-row hover, radius) */
+  .dm{min-width:168px}
+  .dm .st.on{color:var(--s);font-weight:600;box-shadow:inset 3px 0 0 var(--p)}
+  .nav-admin #umn,.nav-headoffice #umn{padding:4px;width:260px}
+  .nav-admin #umn .mu,.nav-headoffice #umn .mu{padding:8px 10px 10px;margin-bottom:3px}
+  .nav-admin #umn .mi,.nav-headoffice #umn .mi{gap:8px;padding:6px 10px;min-height:30px;font-size:13px;border-radius:6px}
+  .nav-admin #umn .mi:hover,.nav-admin #umn .mi:focus-visible,.nav-headoffice #umn .mi:hover,.nav-headoffice #umn .mi:focus-visible{background:var(--hv);color:var(--s)}
 }
 
 /* ---------- Nested submenus open to the side on desktop (reusable; any depth) ----------
@@ -208,7 +211,7 @@ td{padding:10px 8px;border-bottom:1px solid var(--bd);white-space:nowrap}tbody t
    and moves it up when it would leave the viewport. No container clips it (.dm has no overflow). */
 @media (min-width:901px){
   .dsm{position:relative}
-  .dm2{position:absolute;top:-4px;left:100%;margin:0;padding:3px 0;width:max-content;min-width:190px;max-width:min(340px,calc(100vw - 24px));
+  .dm2{position:absolute;top:-4px;left:100%;margin:0;padding:4px;width:max-content;min-width:190px;max-width:min(340px,calc(100vw - 24px));
     background:#fff;border:1px solid var(--bd);border-radius:8px;box-shadow:var(--sh2);z-index:44}
   .dsm.flip>.dm2{left:auto;right:100%}
   .dm2 a,.dm2 .st{white-space:normal}
