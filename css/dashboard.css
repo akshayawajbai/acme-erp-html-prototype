@@ -16,7 +16,10 @@ body.br{
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
 
 /* header + top navigation: solid primary blue, white selected item with a cyan indicator */
-.br .top{box-shadow:0 1px 0 var(--bd)}
+/* no line under the header on desktop: the blue nav bar flows straight into the blue sidebar (one L-shaped navigation).
+   On mobile the nav bar is a drop-down panel, so the white header keeps its 1px separator from the content. */
+.br .top{box-shadow:none}
+@media (max-width:900px){.br .top{box-shadow:0 1px 0 var(--bd)}}
 .br .brand-title span{background:none;color:var(--s)}
 .br .brand-title::before,.br .brand-title::after{background:var(--p)}
 .br .ib:hover,.br .pf:hover,.br .pf[aria-expanded="true"]{border-color:var(--bd)}
