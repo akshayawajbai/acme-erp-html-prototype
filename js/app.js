@@ -155,10 +155,25 @@ const BRANCH_SIDE={
 const REPORT_CATS=[
   ['Abstract',['Monthly Abstract (Receipts)','Monthly Abstract (Payments)','Monthly Abstract (Receipts and Payments)','Multi Abstract Receipts','Multi Abstract Payments','Multi Abstract (Receipts and Payments)','Multi Abstract Receipts - Quarter-wise','Multi Abstract Payments - Quarter-wise','Multi Abstract (Receipts and Payments) - Quarter-wise','Multi Abstract Receipts - Year-wise','Multi Abstract Payments - Year-wise','Multi Abstract (Receipts and Payments) - Year-wise','Multi Abstract Receipts - Project-wise','Multi Abstract Payments - Project-wise']],
   ['Bank Activities',['Cheque Issued Register','Cheque Collected Register','Bank Reconciliation Statement','Bank Pass Book (Bank Actual Statement)','Bank Balance Statement','Cash Deposit Register','Cash Withdrawal Register','Investment Realized Register','Investment Statement','Investment Register','Investment Deposit Register','Investment Interest Register','Investment Interest Quarter-wise Register','Mutual Fund Register','Investment History','GST Payment Challan','GSTR-1 Outwards Register','GSTR-2 Inwards Register','GST Exemption Invoices']],
-  ['Book of Accounts',null],
+  ['Book of Accounts',['Cash Journal','Bank Journal','Cash and Bank Book','Ledger','Day Book','Province % Report','Journal Invoice Status']],
   ['Final Accounts',['Trial Balance','Receipts and Payments','Income and Expenditure','Balance Sheet','Receipts and Payments with Previous Year','Income and Expenditure - Month-wise','Income and Expenditure year wise','Balance Sheet - Year Wise']],
-  ['Audit',null],['Contribution',null],['Cost Centre',null],['Financial Records',null],['Budget',null]
+  ['Audit',['Voucher Statistics','Vouchers Audit Log','Receipts and Payments - Cash and Bank','Abstract Receipts - Cash and Bank (Project)','Abstract Payments - Cash and Bank (Project)','Abstract Receipts and Payments - Cash and Bank (Project)','Abstract Receipts and Payments - Cash and Bank wise','Profit and Loss (Verification)','Statistical Report','Track on Voucher Changes by Users','Cost Centre enabled Ledgers List','Audited Vouchers','Track on Auditor Changes']],
+  ['Contribution',['Purpose','Donor-wise Contribution List','Purpose wise Receipts and Payments','10BD - 80G Report','Donor Institutional','Donor Individual','Country','Purpose-wise Receipts/Utilisation Statement','Purpose-wise Receipts/Utilisation Statement - Cash and Bank','Purpose-wise Receipts/Utilisation - Cost Centre Distribution']],
+  ['Cost Centre',['Abstract (Receipts and Payments)','Cash Journal','Bank Journal','Cash and Bank Book','Ledger','Ledger - Cost Centre-wise','Cost Centre - Statement of Accounts','Receipts and Payments','Income and Expenditure','Consolidated Report','Cost Centre Summary']],
+  ['Financial Records',['Receipt Voucher','Payment Voucher','Contra Voucher','Journal Voucher','Purchase slip','Journal -Invoice','Cash/Bank Transactions','Journal Transactions','Detail Transactions','Cheque Printing','Authority Signature']],
+  ['Budget',['Budget Details','Budget Details - Project-wise','Budget Annual Summary','Budget - Approved','Budget - Balance Sheet','Budget - Realization','Budget - Quarterly Realization','Budget - Variance','Budget -Years Comparison','Multi Year Budget (Verification)','Multi Year Budget Consolidated (Verification)','Budget Cost Centre - Ledger-wise']]
 ];
+/* Report dropdown separators: a thin divider is drawn before each listed item (groups of related reports) */
+const REPORT_SEP={
+  'Book of Accounts':['Ledger','Province % Report'],
+  'Audit':['Receipts and Payments - Cash and Bank','Profit and Loss (Verification)','Track on Voucher Changes by Users'],
+  'Contribution':['Donor Institutional','Purpose-wise Receipts/Utilisation Statement'],
+  'Cost Centre':['Cash Journal','Cost Centre - Statement of Accounts','Consolidated Report'],
+  'Financial Records':['Cash/Bank Transactions','Cheque Printing'],
+  'Budget':['Budget - Balance Sheet','Multi Year Budget (Verification)','Budget Cost Centre - Ledger-wise']
+};
+/* Branch Office sidebar group expanded when a module opens (others start collapsed); modules not listed open their first group */
+const BRANCH_SIDE_OPEN={'Finance':'Accounting'};
 
 /* Link to the reusable Under Development page */
 const udLink=m=>`under-development.html?module=${encodeURIComponent(m)}&from=${encodeURIComponent(page||'')}`;
@@ -278,6 +293,11 @@ function topbar(extra='',lead='',opts={}){
     if(hdr.classList.contains('nav-open')&&!d){hdr.classList.remove('nav-open');$('#ntg').setAttribute('aria-expanded','false');$('#ntg').focus()}});
   $('#ntg').onclick=e=>{e.stopPropagation();const o=!hdr.classList.contains('nav-open');hdr.classList.toggle('nav-open',o);e.currentTarget.setAttribute('aria-expanded',o);e.currentTarget.setAttribute('aria-label',t(o?'ui.closeNav':'ui.openNav'))};
   $('#lo').onclick=()=>{sessionStorage.clear();location.href='login.html'};
+  /* layout: content height = viewport − real header height (header bar + nav bar on desktop; the mobile nav panel is absolute, so excluded).
+     Measured instead of hard-coded so zoom, font fallback and breakpoints never push the page into scrolling. */
+  const root=document.documentElement;root.classList.add('app');
+  const setHH=()=>root.style.setProperty('--hh',hdr.offsetHeight+'px');setHH();
+  if(window.ResizeObserver)new ResizeObserver(setHH).observe(hdr);else addEventListener('resize',setHH);
 }
 
 /* ---------- Toast + modal ---------- */

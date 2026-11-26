@@ -9,11 +9,15 @@ body.login{
     linear-gradient(160deg,#E4F2FD 0%,#EFF8FE 45%,#F5F9FC 100%);
   overflow-x:hidden;position:relative
 }
-/* two soft background circles drifting slowly (decorative) */
-body.login::before,body.login::after{content:"";position:fixed;border-radius:50%;pointer-events:none;z-index:0;
-  background:radial-gradient(circle at 35% 35%,rgba(255,255,255,.9),rgba(205,235,253,.35) 70%);border:1px solid rgba(255,255,255,.7)}
-body.login::before{width:180px;height:180px;left:46%;top:-70px;animation:lgDrift 14s ease-in-out infinite}
-body.login::after{width:120px;height:120px;right:4%;bottom:6%;animation:lgDrift 18s ease-in-out infinite reverse}
+/* four soft floating bubbles behind the content (decorative) */
+.bubbles{position:fixed;inset:0;overflow:hidden;pointer-events:none;z-index:0}
+.bb{position:absolute;border-radius:50%;opacity:.55;will-change:transform;
+  background:radial-gradient(circle at 32% 30%,rgba(255,255,255,.95),rgba(205,235,253,.45) 55%,rgba(179,222,247,.18) 100%);
+  border:1px solid rgba(255,255,255,.6)}
+.bb.b1{width:200px;height:200px;left:44%;top:-60px;animation:lgBubbleA 14s ease-in-out infinite}
+.bb.b2{width:120px;height:120px;right:5%;bottom:7%;animation:lgBubbleB 11s ease-in-out -3s infinite}
+.bb.b3{width:80px;height:80px;left:6%;bottom:12%;opacity:.45;animation:lgBubbleB 9s ease-in-out -5s infinite reverse}
+.bb.b4{width:56px;height:56px;right:30%;top:18%;opacity:.4;animation:lgBubbleA 12.5s ease-in-out -7s infinite reverse}
 
 .lg{position:relative;z-index:1;box-sizing:border-box;min-height:100vh;min-height:100dvh;display:grid;
   grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr);gap:clamp(24px,4vw,64px);
@@ -60,10 +64,24 @@ body.login::after{width:120px;height:120px;right:4%;bottom:6%;animation:lgDrift 
 .fm input::placeholder{color:#94A3B0}
 .fm input:not([type=checkbox]):hover{border-color:#B8CFDF}
 .fm input:not([type=checkbox]):focus{outline:none;border-color:var(--p);box-shadow:0 0 0 3px rgba(0,172,210,.2)}
-.opts{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:6px 10px;font-size:12.5px}
-.opts label{display:flex;align-items:center;gap:6px;font-weight:400;color:var(--t2);cursor:pointer}
-.opts input[type=checkbox]{width:15px;height:15px;margin:0;accent-color:var(--s);cursor:pointer}
-#fp{color:var(--s);font-weight:500;text-decoration:none;margin-left:auto}#fp:hover{text-decoration:underline}
+.fld{display:grid;gap:5px}
+.fm .pw-wrap{position:relative}
+.fm .pw-wrap input{width:100%;box-sizing:border-box;padding-right:46px}
+.fm .pw-wrap input::-ms-reveal,.fm .pw-wrap input::-ms-clear{display:none}
+.pw-tg{position:absolute;top:50%;right:6px;width:32px;height:32px;margin-top:-16px;padding:0;border:0;border-radius:8px;
+  background:transparent;color:#7A8B99;cursor:pointer;display:grid;place-items:center;transition:color .2s,background-color .2s}
+.pw-tg:hover{color:var(--s);background:#EEF6FB}
+.pw-tg svg{grid-area:1/1;width:19px;height:19px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;
+  transition:opacity .22s ease,transform .22s ease}
+.pw-tg .i-off{opacity:0;transform:scale(.7) rotate(-15deg)}
+.pw-tg.on .i-eye{opacity:0;transform:scale(.7) rotate(15deg)}
+.pw-tg.on .i-off{opacity:1;transform:none}
+.pw-tg.pop{animation:lgPop .25s ease-out}
+.fm .pw-tg:focus-visible{outline:2px solid var(--p);outline-offset:0}
+.fp-row{text-align:center;margin:-2px 0 -2px}
+#fp{color:var(--s);font-size:13px;font-weight:500;text-decoration:none;padding:2px 0;
+  background:linear-gradient(currentColor,currentColor) 50% 100%/0 1px no-repeat;transition:color .2s,background-size .25s ease}
+#fp:hover,#fp:focus-visible{color:#013A5D;background-size:100% 1px}
 .fm .er{min-height:16px;margin:-4px 0}
 .fm .er:empty{min-height:0;margin:-6px 0}
 .lg-btn{width:100%;height:44px;font-size:14px;border-radius:10px;box-shadow:0 8px 18px rgba(0,172,210,.28)}
@@ -78,10 +96,13 @@ body.login::after{width:120px;height:120px;right:4%;bottom:6%;animation:lgDrift 
 /* ---------- animation ---------- */
 @keyframes floatAccounting{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
 @keyframes floatChip{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
-@keyframes lgDrift{0%,100%{transform:translate(0,0)}50%{transform:translate(14px,10px)}}
+@keyframes lgBubbleA{0%,100%{transform:translate(0,0);opacity:.55}50%{transform:translate(18px,22px);opacity:.4}}
+@keyframes lgBubbleB{0%,100%{transform:translate(0,0)}33%{transform:translate(-12px,-18px)}66%{transform:translate(10px,-8px)}}
+@keyframes lgPop{0%{transform:scale(1)}40%{transform:scale(.85)}100%{transform:scale(1)}}
 @keyframes lgFade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){
-  .ill,.chip,.lg-l,.fm,body.login::before,body.login::after{animation:none!important}
+  .ill,.chip,.lg-l,.fm,.bb,.pw-tg{animation:none!important}
+  .pw-tg svg,#fp{transition:none}
 }
 
 /* ---------- tablet ---------- */
@@ -100,8 +121,8 @@ body.login::after{width:120px;height:120px;right:4%;bottom:6%;animation:lgDrift 
   .lg-desc{display:none}
   .ill-box{display:none}
   .fm{max-width:440px;padding:22px 18px}
-  body.login::before{width:120px;height:120px}
-  body.login::after{display:none}
+  .bb.b1{width:130px;height:130px}
+  .bb.b4{display:none}
 }
 @media (max-width:360px){
   .demo{grid-template-columns:1fr}

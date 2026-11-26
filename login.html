@@ -1,5 +1,6 @@
 <!doctype html><html lang=en><head><meta charset=utf-8><link rel=icon href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 32 32%27%3E%3Crect width=%2732%27 height=%2732%27 rx=%277%27 fill=%27%23005B96%27/%3E%3Ctext x=%2716%27 y=%2722%27 font-family=%27Arial%27 font-weight=%27700%27 font-size=%2715%27 fill=%27%23fff%27 text-anchor=%27middle%27%3EA%3C/text%3E%3C/svg%3E"><meta name=viewport content="width=device-width,initial-scale=1"><title>Sign in – AcME ERP</title>
 <link rel=stylesheet href="css/style.css"><link rel=stylesheet href="css/login.css"></head><body class=login>
+<div class=bubbles aria-hidden=true><span class="bb b1"></span><span class="bb b2"></span><span class="bb b3"></span><span class="bb b4"></span></div>
 <div class=lg>
 <section class=lg-l>
   <div class=lg-intro>
@@ -21,10 +22,17 @@
   <form id=f class=fm novalidate>
     <div class=fm-h><h1>Welcome back</h1><p>Sign in to continue to AcME ERP.</p></div>
     <label>Username<input id=u autocomplete=username placeholder="Enter your username"></label>
-    <label>Password<input id=pw type=password autocomplete=current-password placeholder="Enter your password"></label>
-    <div class=opts><label><input type=checkbox id=sp> Show password</label><label><input type=checkbox id=rm> Remember me</label><a href="#" id=fp>Forgot password?</a></div>
+    <div class=fld><label for=pw>Password</label>
+      <div class=pw-wrap><input id=pw type=password autocomplete=current-password placeholder="Enter your password">
+        <button type=button class=pw-tg id=sp aria-label="Show password" aria-pressed=false aria-controls=pw>
+          <svg class=i-eye viewBox="0 0 24 24" aria-hidden=true><path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx=12 cy=12 r=3 /></svg>
+          <svg class=i-off viewBox="0 0 24 24" aria-hidden=true><path d="M9.9 4.2A10.4 10.4 0 0 1 12 4c6.4 0 10 7 10 7a17.6 17.6 0 0 1-2.2 3.2M6.6 6.6C3.9 8.4 2 12 2 12s3.6 7 10 7a10 10 0 0 0 5.4-1.6"/><path d="M9.9 9.9a3 3 0 0 0 4.2 4.2"/><path d="M2 2l20 20"/></svg>
+        </button>
+      </div>
+    </div>
     <div class=er id=er role=alert></div>
     <button class="btn pr lg-btn">Sign in</button>
+    <div class=fp-row><a href="#" id=fp>Forgot password?</a></div>
     <div class=demo-h><span>Demo login (password demo123)</span></div>
     <div class=demo><button type=button class=btn data-u=admin>Admin</button><button type=button class=btn data-u=headoffice>Head Office</button><button type=button class=btn data-u=branch>Branch Office</button></div>
   </form>

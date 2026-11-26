@@ -1,4 +1,6 @@
-$('#sp').onchange=e=>$('#pw').type=e.target.checked?'text':'password';
+$('#sp').onclick=e=>{const b=e.currentTarget,pw=$('#pw'),show=pw.type==='password';pw.type=show?'text':'password';
+  b.setAttribute('aria-pressed',show);b.setAttribute('aria-label',show?'Hide password':'Show password');b.classList.toggle('on',show);
+  b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop')};
 $('#fp').onclick=e=>{e.preventDefault();modal('Forgot password','<p>Demo only: use password <b>demo123</b> with any demo account.</p>')};
 $$('.demo .btn').forEach(b=>b.onclick=()=>{$('#u').value=b.dataset.u;$('#pw').value='demo123'});
 $('#f').onsubmit=e=>{e.preventDefault();const u=$('#u').value.trim().toLowerCase();if(!u||!$('#pw').value)return $('#er').textContent='Enter both username and password.';
